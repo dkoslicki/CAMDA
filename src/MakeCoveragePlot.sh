@@ -33,7 +33,7 @@ foundGenome=`cat ../data/Output/${metagenomeBasename}.21.jf-FoundOrganismFileNam
 /local/cluster/bin/python CoveragePlot.py -i ${dataDir}${metagenomeBasename}.21.jf-coverage_${windowSize}.txt -o ${plotDir}${metagenomeBasename}.21.jf-CoveragePlot.png -t ${truncateTo} -u bp -b ${bottom}
 
 # Trim the white space in the figure
-/usr/local/bin/convert ${plotDir}${metagenomeBasename}.21.jf-CoveragePlot.png -trim ${plotDir}${metagenomeBasename}.21.jf-CoveragePlot.png
+#/usr/local/bin/convert ${plotDir}${metagenomeBasename}.21.jf-CoveragePlot.png -trim ${plotDir}${metagenomeBasename}.21.jf-CoveragePlot.png
 
 # Save the number of reads that aligned and other stats
 sed -n 4p ${dataDir}alignment-stats.txt | cut -d' ' -f6 > ${paperDir}${metagenomeBasename}.21.jf-NumReadsAligned.txt
