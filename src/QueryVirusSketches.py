@@ -10,19 +10,19 @@ import matplotlib.pyplot as plt
 import sys
 
 metagenome_bloom_filter = sys.argv[1]
-total_kmers_file = os.path.abspath('../data/Output/' + os.path.basename(metagenome_bloom_filter) + '-distinctKmers.txt')
+total_kmers_file = os.path.abspath('../data/Output/' + os.path.basename(metagenome_bloom_filter.replace(".small", "")) + '-distinctKmers.txt')
 metagenome_base_name = os.path.basename(metagenome_bloom_filter)
 
 # Get the total number of distinct kmers
 jellyfish_loc = "/home/pi/koslickd/jellyfish-2.2.3/bin/./jellyfish"
 
 # Get the number of unique k-mers in the metagenome
-cmd = jellyfish_loc + " stats " + metagenome_bloom_filter
-res = subprocess.check_output(cmd, shell=True)
-num_kmers = int(res.split()[3])
-fid = open(total_kmers_file, 'w')
-fid.write("%d" % num_kmers)
-fid.close()
+#cmd = jellyfish_loc + " stats " + metagenome_bloom_filter
+#res = subprocess.check_output(cmd, shell=True)
+#num_kmers = int(res.split()[3])
+#fid = open(total_kmers_file, 'w')
+#fid.write("%d" % num_kmers)
+#fid.close()
 
 
 num_threads = multiprocessing.cpu_count()
