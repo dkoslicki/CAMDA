@@ -21,7 +21,7 @@ foundGenome=`cat ../data/Output/${metagenomeBasename}.21.jf-FoundOrganismFileNam
 /home/pi/koslickd/./snap-aligner index ${foundGenome} ${dataDir} -s 16 -large
 
 # Align the paired reads, only output aligned, allow larger edit distance to get more candidate alignment locations
-/home/pi/koslickd/./snap-aligner paired ${dataDir}${metagenome} -F a -hp -mrl 40 -xf 1.2 -d 40 -o -sam ${dataDir}${metagenomeBasename}.21.jf-aligned.sam > ${dataDir}${metagenomeBasename}.21.jf-alignment-stats.txt
+echo "/home/pi/koslickd/./snap-aligner paired ${dataDir}${metagenome} -F a -hp -mrl 40 -xf 1.2 -d 40 -o -sam ${dataDir}${metagenomeBasename}.21.jf-aligned.sam > ${dataDir}${metagenomeBasename}.21.jf-alignment-stats.txt"
 
 # Sort the output
 /local/cluster/samtools/bin/samtools sort --output-fmt sam ${dataDir}${metagenomeBasename}.21.jf-aligned.sam > ${dataDir}${metagenomeBasename}.21.jf-aligned.sorted.sam
