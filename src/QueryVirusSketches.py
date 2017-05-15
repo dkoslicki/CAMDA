@@ -7,16 +7,23 @@ from itertools import *
 from multiprocessing.dummy import Pool
 import multiprocessing
 import matplotlib.pyplot as plt
+import sys
+
+metagenome_bloom_filter = sys.argv[1]
+total_kmers_file = sys.argv[2]
+metagenome_base_name = os.path.basename(metagenome_bloom_filter)
+
 
 num_threads = multiprocessing.cpu_count()
 ksize = 21  # k-mer length
 max_h = 500  # max number of hashes in sketch
 p = 0.01
 query_per_sequence_loc = os.path.abspath('QueryPerSequence/./query_per_sequence')
-metagenome_bloom_filter = os.path.abspath('../data/MetagenomeBloom.jf')
+#metagenome_bloom_filter = os.path.abspath('../data/MetagenomeBloom.jf')
 #metagenome_kmers_total = 916485607  # via jellyfish stats on a count bloom filter (need to streamline this)
 # Note that this number changed since I am restricting myself to the paired reads (no orphaned guys)
-fid = open(os.path.abspath("../Paper/Data/MetagenomeTotalKmers.txt"), 'r')
+#fid = open(os.path.abspath("../Paper/Data/MetagenomeTotalKmers.txt"), 'r')
+fid = open(os.path.abspath(total_kmers_file), 'r')
 metagenome_kmers_total = int(fid.readlines()[0].strip())
 fid.close()
 
@@ -52,7 +59,7 @@ def unwrap_make_jaccard(arg):
 pool = Pool(processes=num_threads)
 jaccards = np.array(pool.map(unwrap_make_jaccard, zip(genome_sketches, file_names, repeat(ksize), repeat(p), repeat(max_h), repeat(metagenome_kmers_total))))
 
-np.savetxt(os.path.abspath('../data/MetagenomeViruses.jaccards.txt'), jaccards)
+np.savetxt(os.path.abspath('../data/' + metagenome_base_name + '-Viruses.jaccards.txt'), jaccards)
 
 
 # What was the largest containment guy (If I want an estimate of the pure cardinality of the intersection,
@@ -78,19 +85,19 @@ head = fid.readline()
 fid.close()
 accession = head.split(' ')[0][1:]
 head = ' '.join(head.split(',')[0].split(' ')[1:])
-fid = open(os.path.abspath('../Paper/Data/FoundOrganismName.txt'), 'w')
+fid = open(os.path.abspath('../data/' + metagenome_base_name + '-FoundOrganismName.txt'), 'w')
 fid.write("%s" % head)
 fid.close()
-fid = open(os.path.abspath('../Paper/Data/FoundOrganismAccession.txt'), 'w')
+fid = open(os.path.abspath('../data/' + metagenome_base_name + '-FoundOrganismAccession.txt'), 'w')
 fid.write("%s" % accession)
 fid.close()
-fid = open(os.path.abspath('../Paper/Data/FoundOrganismFileName.txt'), 'w')
+fid = open(os.path.abspath('../data/' + metagenome_base_name + '-FoundOrganismFileName.txt'), 'w')
 fid.write("%s" % file_names[pos])
 fid.close()
-fid = open(os.path.abspath('../Paper/Data/FoundOrganismContainment.txt'), 'w')
+fid = open(os.path.abspath('../data/' + metagenome_base_name + '-FoundOrganismContainment.txt'), 'w')
 fid.write("%1.4f" % containments[pos])
 fid.close()
-fid = open(os.path.abspath('../Paper/Data/FoundOrganismJaccard.txt'), 'w')
+fid = open(os.path.abspath('../data/' + metagenome_base_name + '-FoundOrganismJaccard.txt'), 'w')
 fid.write("%.3e" % jaccards[pos])
 fid.close()
 
