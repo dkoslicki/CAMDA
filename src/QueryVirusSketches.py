@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import sys
 
 metagenome_bloom_filter = sys.argv[1]
-total_kmers_file = sys.argv[2]
+total_kmers_file = os.path.abspath('../data/' + os.path.basename(metagenome_bloom_filter) + '-distinctKmers.txt')
 metagenome_base_name = os.path.basename(metagenome_bloom_filter)
 
 
