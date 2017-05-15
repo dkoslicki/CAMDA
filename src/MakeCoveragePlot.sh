@@ -18,22 +18,22 @@ foundGenome=`cat ../data/Output/${metagenomeBasename}.21.jf-FoundOrganismFileNam
 
 
 # Make the index
-snap-aligner index ${foundGenome} ${dataDir} -s 16 -large
+/home/pi/koslickd/./snap-aligner index ${foundGenome} ${dataDir} -s 16 -large
 
 # Align the paired reads, only output aligned, allow larger edit distance to get more candidate alignment locations
-snap-aligner paired ${dataDir} ${metagenome} -F a -hp -mrl 40 -xf 1.2 -d 40 -o -sam ${dataDir}${metagenomeBasename}.21.jf-aligned.sam > ${dataDir}${metagenomeBasename}.21.jf-alignment-stats.txt
+/home/pi/koslickd/./snap-aligner paired ${dataDir} ${metagenome} -F a -hp -mrl 40 -xf 1.2 -d 40 -o -sam ${dataDir}${metagenomeBasename}.21.jf-aligned.sam > ${dataDir}${metagenomeBasename}.21.jf-alignment-stats.txt
 
 # Sort the output
-samtools sort --output-fmt sam ${dataDir}${metagenomeBasename}.21.jf-aligned.sam > ${dataDir}${metagenomeBasename}.21.jf-aligned.sorted.sam
+/local/cluster/samtools/bin/samtools sort --output-fmt sam ${dataDir}${metagenomeBasename}.21.jf-aligned.sam > ${dataDir}${metagenomeBasename}.21.jf-aligned.sorted.sam
 
 # Windowed coverage information, only use MAPQ quality >= 20
-samtools depth -q 20 -a --reference ${foundGenome} ${dataDir}${metagenomeBasename}.21.jf-aligned.sorted.sam | python GetCoverage.py $windowSize /dev/fd/0 ${dataDir}${metagenomeBasename}.21.jf-coverage_${windowSize}.txt
+/local/cluster/samtools/bin/samtools depth -q 20 -a --reference ${foundGenome} ${dataDir}${metagenomeBasename}.21.jf-aligned.sorted.sam | python GetCoverage.py $windowSize /dev/fd/0 ${dataDir}${metagenomeBasename}.21.jf-coverage_${windowSize}.txt
 
 # Make the plot
-python CoveragePlot.py -i ${dataDir}${metagenomeBasename}.21.jf-coverage_${windowSize}.txt -o ${plotDir}${metagenomeBasename}.21.jf-CoveragePlot.png -t ${truncateTo} -u bp -b ${bottom}
+/local/cluster/bin/python CoveragePlot.py -i ${dataDir}${metagenomeBasename}.21.jf-coverage_${windowSize}.txt -o ${plotDir}${metagenomeBasename}.21.jf-CoveragePlot.png -t ${truncateTo} -u bp -b ${bottom}
 
 # Trim the white space in the figure
-convert ${plotDir}${metagenomeBasename}.21.jf-CoveragePlot.png -trim ${plotDir}${metagenomeBasename}.21.jf-CoveragePlot.png
+/usr/local/bin/convert ${plotDir}${metagenomeBasename}.21.jf-CoveragePlot.png -trim ${plotDir}${metagenomeBasename}.21.jf-CoveragePlot.png
 
 # Save the number of reads that aligned and other stats
 sed -n 4p ${dataDir}alignment-stats.txt | cut -d' ' -f6 > ${paperDir}${metagenomeBasename}.21.jf-NumReadsAligned.txt
