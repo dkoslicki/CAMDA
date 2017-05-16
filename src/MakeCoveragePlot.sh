@@ -14,7 +14,7 @@ plotDir="../data/Output/"
 paperDir="../data/Output/"
 metagenome=$1
 metagenomeBasename=`basename $metagenome`
-foundGenome=`cat ../data/Output/${metagenomeBasename}.21.small.jf-FoundOrganismFileName.txt`
+foundGenome=`cat ../data/Output/${metagenomeBasename}.21.jf-FoundOrganismFileName.txt`
 
 
 # Make the index
