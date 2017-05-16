@@ -36,8 +36,8 @@ foundGenome=`cat ../data/Output/${metagenomeBasename}.21.jf-FoundOrganismFileNam
 #/usr/local/bin/convert ${plotDir}${metagenomeBasename}.21.jf-CoveragePlot.png -trim ${plotDir}${metagenomeBasename}.21.jf-CoveragePlot.png
 
 # Save the number of reads that aligned and other stats
-sed -n 4p ${dataDir}alignment-stats.txt | cut -d' ' -f6 > ${paperDir}${metagenomeBasename}.21.jf-NumReadsAligned.txt
+sed -n 4p ${dataDir}${metagenomeBasename}.21.jf-alignment-stats.txt | cut -d' ' -f6 > ${paperDir}${metagenomeBasename}.21.jf-NumReadsAligned.txt
 echo $windowSize > ${paperDir}${metagenomeBasename}.21.jf-WindowSize.txt
 echo truncateTo > ${paperDir}${metagenomeBasename}.21.jf-TruncateTo.txt
 # Save average coverage
-cat ${dataDir}coverage_${windowSize}.txt | cut -f 4 | awk '{sum+=$1}END{printf "%1.3f", sum / NR}' > ${paperDir}${metagenomeBasename}.21.jf-MeanCoverage.txt
+cat ${dataDir}${metagenomeBasename}.21.jf-coverage_${windowSize}.txt | cut -f 4 | awk '{sum+=$1}END{printf "%1.3f", sum / NR}' > ${paperDir}${metagenomeBasename}.21.jf-MeanCoverage.txt
